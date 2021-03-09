@@ -13,11 +13,7 @@ on:
         description: 'SSH远程'
         required: false
         default: 'ssh-actions'
-        
-#点☆Star触发开始编译
-  watch:
-    types: started
-    
+
 #定时触发开始编译(把下面两个#去掉开启,时间设置请看定时编译说明)
 #  schedule:
 #    - cron: 0 8 */5 * *
@@ -77,11 +73,13 @@ jobs:
         echo "Updete_firmware=${Updete_firmware}" >> $GITHUB_ENV
         echo "Extension=${Extension}" >> $GITHUB_ENV
 
+
     - name: 电报机器人信息通知
       run: |
         if [[ "${SERVERCHAN_SCKEY}" == "true" ]]; then
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人您要编译的[${{matrix.target}}]固件正在努力耕耘中,请耐心等待...... 😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
         fi
+     
      
     - name: 整理编译环境
       env:
@@ -108,7 +106,7 @@ jobs:
     
     - name: 整理脚本文件
       run: |
-        git clone -b main https://github.com/281677160/ceshi1 "${GITHUB_WORKSPACE}/build/common"
+        git clone -b main https://github.com/281677160/Custom "${GITHUB_WORKSPACE}/build/common"
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cp -Rf "${GITHUB_WORKSPACE}/build/common"/*.sh "${PATH1}"
         chmod -R +x "${PATH1}"
