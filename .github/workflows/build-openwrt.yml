@@ -13,7 +13,9 @@ on:
         description: 'SSH远程'
         required: false
         default: 'ssh-actions'
-
+#点☆Star触发开始编译
+  watch:
+    types: started
 #定时触发开始编译(把下面两个#去掉开启,时间设置请看定时编译说明)
 #  schedule:
 #    - cron: 0 8 */5 * *
